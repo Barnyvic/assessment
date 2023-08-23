@@ -1,0 +1,28 @@
+/* App.css */
+.app-container {
+ width: 700px;
+  background-color: #f0f0f0;
+  margin: auto; /* Auto margin horizontally */
+  padding: 50px 0; /* Vertical padding for centering */
+  text-align: center;
+  border: 1px solid red;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.movie-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* .movie-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  width: 200px;
+} */
