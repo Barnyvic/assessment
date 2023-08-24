@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import MovieResults from "./MovieResult";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
 
 interface Movie {
@@ -14,24 +16,34 @@ const MovieSearch: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
+    if (!searchQuery) {
+      toast.error("Please enter a movie title.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      return; 
+    }
     setLoading(true);
-    setError(null);
 
     try {
       const response = await axios.get<{ Search: Movie[] }>(
         `https://www.omdbapi.com/?s=${searchQuery}&apikey=e457a512`
       );
-      console.log(response.data.Search)
-      if (response.data.Search) {
+      if (response.data.Search && response.status === 200) {
         setMovies(response.data.Search || []);
+        toast.success("Movies retrieved successfully ", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       } else {
-        setError("No movies found.");
+        toast.error("No movies found.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       }
     } catch (error) {
-      setError("An error occurred while fetching movies.");
+       toast.error("An error occurred while fetching movies.", {
+         position: toast.POSITION.BOTTOM_RIGHT,
+       });
     } finally {
       setLoading(false);
     }
@@ -39,6 +51,7 @@ const MovieSearch: React.FC = () => {
 
   return (
     <div className="app-container">
+      <ToastContainer />
       <h1>Movie Search</h1>
       <div className="search-container d-flex justify-content-center p-4">
         <input
@@ -56,7 +69,6 @@ const MovieSearch: React.FC = () => {
           Search
         </button>
       </div>
-      {error && <p className="error-message">{error}</p>}
       <MovieResults movies={movies} loading={loading} />
     </div>
   );
