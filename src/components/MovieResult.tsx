@@ -31,7 +31,7 @@ const MovieResults: React.FC<MovieResultsProps> = ({ movies, loading }) => {
                   style={{ maxHeight: "300px", objectFit: "cover" }}
                 />
                 <div className="card-body d-flex flex-column justify-content-between">
-                  <h5 className="card-title">{movie.Title}</h5>
+                  <h5 className="card-title">Title: {movie.Title}</h5>
                   <p className="card-text">Year: {movie.Year}</p>
                 </div>
               </div>
